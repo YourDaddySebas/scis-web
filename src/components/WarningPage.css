@@ -1,0 +1,21 @@
+.warning-page {
+    text-align: center;
+    margin-top: 100px;
+  }
+  
+  .btn-back {
+    display: inline-block;
+    background-color: transparent;
+    color: #1E40AF;
+    padding: 10px 20px;
+    border: 2px solid #1E40AF;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+  }
+  
+  .btn-back:hover {
+    background-color: #1E40AF;
+    color: white;
+  }

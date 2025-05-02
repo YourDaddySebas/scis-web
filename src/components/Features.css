@@ -1,0 +1,37 @@
+.features {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .features-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; /* Hace la sección responsiva */
+  }
+  
+  .feature-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem; /* Tamaño del icono */
+    color: #1E40AF; /* Color del icono */
+    margin-bottom: 10px;
+  }
+  
+  .feature-item h3 {
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+  
+  .feature-item p {
+    font-size: 0.9rem;
+    color: #555;
+  }
