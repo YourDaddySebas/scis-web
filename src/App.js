@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import ControlPanel from './components/ControlPanel';
 import ErrorPage from './components/ErrorPage';
+import ConstructionPage from './components/ConstructionPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/control-panel" element={<ControlPanel />} />
         {/* Ruta para la página de error */}
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/construction" element={<ConstructionPage />} />
       </Routes>
     </Router>
   );

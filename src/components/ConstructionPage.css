@@ -1,0 +1,48 @@
+/* Estilos para la página de construcción */
+.construction-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('background.jpg'); /* Ruta de tu imagen */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .construction-container {
+    background: rgba(255, 255, 255, 0.85); /* Fondo blanco semitransparente */
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .construction-title {
+    font-size: 2.5rem;
+    color: #007bff; /* Azul primario */
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .construction-text {
+    font-size: 1.2rem;
+    color: #555; /* Gris oscuro */
+    margin-bottom: 2rem;
+  }
+  
+  .construction-button {
+    background-color: #007bff; /* Azul primario */
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .construction-button:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el cursor */
+  }
