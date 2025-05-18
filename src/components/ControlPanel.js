@@ -3,6 +3,22 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import "./ControlPanel.css";
 
+const Toast = ({ message, onClose }) => {
+  React.useEffect(() => {
+    if (!message) return;
+    const timer = setTimeout(onClose, 4000);
+    return () => clearTimeout(timer);
+  }, [message, onClose]);
+
+  if (!message) return null;
+  return (
+    <div className="toast">
+      <span>{message}</span>
+      <button className="toast-close" onClick={onClose}>×</button>
+    </div>
+  );
+};
+
 const ControlPanel = () => {
   const [equipo, setEquipo] = useState(null);
   const [error, setError] = useState(null);
@@ -117,36 +133,46 @@ const ControlPanel = () => {
   };
 
   const guardarProgramacion = async () => {
-    try {
-      const { error } = await supabase
-        .from("equipos")
-        .update({
-          programado: true,
-          hora_encendido: horaEncendido,
-          minuto_encendido: minutoEncendido,
-          hora_apagado: horaApagado,
-          minuto_apagado: minutoApagado,
-        })
-        .eq("id", equipo.id);
+  // Convierte horas y minutos a minutos totales
+  const inicio = parseInt(horaEncendido, 10) * 60 + parseInt(minutoEncendido, 10);
+  const fin = parseInt(horaApagado, 10) * 60 + parseInt(minutoApagado, 10);
 
-      if (error) {
-        setError("No se pudo guardar la programación.");
-        return;
-      }
+  // Si el tiempo de riego es 0 o negativo
+  if (fin <= inicio) {
+    <Toast message={error} onClose={() => setError(null)} />
+    return;
+  }
 
-      console.log("Programación guardada exitosamente.");
-      setEquipo({
-        ...equipo,
+  try {
+    const { error } = await supabase
+      .from("equipos")
+      .update({
         programado: true,
         hora_encendido: horaEncendido,
         minuto_encendido: minutoEncendido,
         hora_apagado: horaApagado,
         minuto_apagado: minutoApagado,
-      });
-    } catch (err) {
-      setError("Ocurrió un error inesperado al guardar la programación.");
+      })
+      .eq("id", equipo.id);
+
+    if (error) {
+      setError("No se pudo guardar la programación.");
+      return;
     }
-  };
+
+    console.log("Programación guardada exitosamente.");
+    setEquipo({
+      ...equipo,
+      programado: true,
+      hora_encendido: horaEncendido,
+      minuto_encendido: minutoEncendido,
+      hora_apagado: horaApagado,
+      minuto_apagado: minutoApagado,
+    });
+  } catch (err) {
+    setError("Ocurrió un error inesperado al guardar la programación.");
+  }
+};
 
   const cancelarProgramacion = async () => {
     const confirmacion = window.confirm("¿Estás seguro de que deseas cancelar la programación?");
@@ -180,6 +206,41 @@ const ControlPanel = () => {
 
     return `${horas} horas y ${minutos} minutos`;
   };
+  const calcularTiempoRestante = () => {
+  if (!equipo || !equipo.programado) return "";
+
+  const now = new Date();
+  const horaActual = now.getHours();
+  const minutoActual = now.getMinutes();
+
+  // Hora y minuto de encendido y apagado programado
+  const horaEnc = parseInt(equipo.hora_encendido, 10);
+  const minEnc = parseInt(equipo.minuto_encendido, 10);
+  const horaApg = parseInt(equipo.hora_apagado, 10);
+  const minApg = parseInt(equipo.minuto_apagado, 10);
+
+  // Tiempo actual, encendido y apagado en minutos
+  const actualMins = horaActual * 60 + minutoActual;
+  const encenderMins = horaEnc * 60 + minEnc;
+  const apagarMins = horaApg * 60 + minApg;
+
+  // Si equipo está ENCENDIDO, muestra tiempo para apagar
+  if (equipo.estado_equipo) {
+    let minsRestantes = apagarMins - actualMins;
+    if (minsRestantes < 0) minsRestantes += 24 * 60; // Por si el apagado es al día siguiente
+    const horas = Math.floor(minsRestantes / 60);
+    const minutos = minsRestantes % 60;
+    return `Faltan ${horas} horas y ${minutos} minutos para finalizar el riego.`;
+  } 
+  // Si equipo está APAGADO, muestra tiempo para encender
+  else {
+    let minsRestantes = encenderMins - actualMins;
+    if (minsRestantes < 0) minsRestantes += 24 * 60; // Por si el encendido es al día siguiente
+    const horas = Math.floor(minsRestantes / 60);
+    const minutos = minsRestantes % 60;
+    return `Faltan ${horas} horas y ${minutos} minutos para iniciar el riego.`;
+  }
+};
 
   const handleLogout = () => {
     localStorage.removeItem("usuario");
@@ -266,10 +327,7 @@ const ControlPanel = () => {
           </div>
         </section>
         <section className="status-section">
-          <h2>Estado Actual</h2>
-          <p className={`status ${equipo?.estado_equipo ? "active" : "inactive"}`}>
-            {equipo?.estado_equipo ? "ENCENDIDA" : "APAGADA"}
-          </p>
+         
           <button
             className="toggle-button"
             style={{
@@ -324,12 +382,13 @@ const ControlPanel = () => {
         {equipo.programado && (
           <section className="programacion-activa">
             <h2>Programación Activa</h2>
-            <p>Tiempo total de riego: {calcularTiempoRiego()}</p>
-            <h2>Programación Activa</h2>
-            <p>Tiempo total de riego: {calcularTiempoRiego()}</p>
+            <p>Tiempo total de riego: {calcularTiempoRiego()}  ({equipo.hora_encendido}:{equipo.minuto_encendido} a {equipo.hora_apagado}:{equipo.minuto_apagado})</p>  
+            <p>{calcularTiempoRestante()}</p> {/* <-- agrega esta línea */}
           </section>
+
           
         )}
+        
       </main>
     </div>
   );

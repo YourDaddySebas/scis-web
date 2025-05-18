@@ -1,15 +1,27 @@
 .hero {
-    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPShKl-xdblledmsAol7pXxBiiycdH3OdlAg&s'); /* Cambia por tu imagen */
-    background-size: cover;
-    background-position: center;
-    height: 90vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    padding: 20px;
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPShKl-xdblledmsAol7pXxBiiycdH3OdlAg&s');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Ajuste para móvil: resta la navbar */
+@media (max-width: 600px) {
+  .hero {
+    height: calc(100vh - 70px); /* Ajusta el 70px si tu navbar es diferente */
+    min-height: calc(100vh - 70px);
   }
+}
   
   .hero-content {
     max-width: 800px;
