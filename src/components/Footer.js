@@ -4,7 +4,7 @@ import './Footer.css'; // Estilos específicos para el pie de página
 const Footer = () => {
   return (
     <footer className="footer">
-      <p>&copy; 2025 Sistema de Control de Riego Inteligente. Todos los derechos reservados.</p>
+      <p>&copy; 2025 Controlador de Sistema de Riego Solar Automatizado. Todos los derechos reservados.</p>
     </footer>
   );
 };

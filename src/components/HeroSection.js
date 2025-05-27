@@ -12,7 +12,7 @@ const HeroSection = () => {
         <div className="hero-buttons">
           <Link to="/construction" className="btn btn-primary">Conoce más   </Link>
           
-          <Link to="/construction" className="btn btn-secondary">Panel de Control</Link>
+          <Link to="/construction" className="btn btn-secondary">Contactanos</Link>
         </div>
       </div>
     </section>
