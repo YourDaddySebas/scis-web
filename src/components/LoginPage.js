@@ -78,7 +78,7 @@ const LoginPage = () => {
         </button>
       </div>
       <footer className="login-footer">
-        <p>&copy; 2025 Todos los derechos reservados SCIS</p>
+        <p>&copy; 2025 Todos los derechos reservados CSRSA</p>
       </footer>
     </div>
   );
